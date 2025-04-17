@@ -1,0 +1,123 @@
+import pandas as pd
+import os
+import uuid
+from datetime import datetime
+
+def transform_data():
+    try:
+        # Leer CSV original
+        input_path = os.path.join("..", "dataset", "compras.csv")
+        df = pd.read_csv(input_path)
+        print(df.head())
+
+        # Normalizar nombres de columnas
+        df.columns = [col.strip().lower() for col in df.columns]
+
+        # Mapear nombres esperados
+        column_map = {
+            "id": "id",
+            "name": "name",
+            "company_id": "company_id",
+            "amount": "amount",
+            "status": "status",
+            "created_at": "created_at",
+            "paid_at": "paid_at"
+        }
+        df.rename(columns=column_map, inplace=True)
+
+        # Convertir fechas
+        df["created_at"] = pd.to_datetime(df["created_at"], errors='coerce').dt.date
+        if "paid_at" in df.columns:
+            df["paid_at"] = pd.to_datetime(df["paid_at"], errors='coerce').dt.date
+        else:
+            df["paid_at"] = pd.NaT
+
+        # Reemplazar espacios vacíos por NaN
+        df.replace(r'^\s*$', pd.NA, regex=True, inplace=True)
+
+        # Crear columna de trazabilidad
+        df["acciones"] = ""
+
+        # Función para validar company_id
+        def es_company_id_valido(company_id):
+            # Validar que company_id sea alfanumérico de 10 caracteres o más
+            return isinstance(company_id, str) and company_id.isalnum() and len(company_id) >= 10
+
+        # Imputación cruzada: si falta company_id pero hay name
+        for idx, row in df.iterrows():
+            # Si el company_id es inválido (****** o caracteres no alfanuméricos)
+            if not es_company_id_valido(row["company_id"]):
+                if pd.notna(row["name"]):
+                    # Buscar otro registro con el mismo name y un company_id no nulo
+                    match = df[(df["name"].str.lower() == row["name"].lower()) & (df["company_id"].notna())]
+                    if not match.empty:
+                        df.at[idx, "company_id"] = match.iloc[0]["company_id"]
+                        df.at[idx, "acciones"] += "company_id_imputado; "
+                    else:
+                        df.at[idx, "company_id"] = None  # Reemplazar "nulo" por None
+                        df.at[idx, "acciones"] += "company_id_invalido_sin_match; "
+
+            # Si el name está vacío pero hay company_id
+            if pd.isna(row["name"]) and pd.notna(row["company_id"]):
+                match = df[(df["company_id"] == row["company_id"]) & (df["name"].notna())]
+                if not match.empty:
+                    df.at[idx, "name"] = match.iloc[0]["name"]
+                    df.at[idx, "acciones"] += "name_imputado; "
+
+        # Validar campos requeridos y marcar "nulo"
+        required_columns = ["id", "company_id", "created_at", "amount", "status", "name"]
+        for col in required_columns:
+            df[col] = df[col].astype("object")  # Evita FutureWarning
+            null_rows = df[col].isna()
+            df.loc[null_rows, col] = "nulo"
+            df.loc[null_rows, "acciones"] += f"{col}_nulo; "
+
+        # Generar UUID si id == "nulo"
+        mask_uuid = df["id"] == "nulo"
+        df.loc[mask_uuid, "acciones"] += "uuid_generado; "
+        df.loc[mask_uuid, "id"] = [uuid.uuid4().hex for _ in range(mask_uuid.sum())]
+
+        # paid_at: si falta, poner "no_pagado"
+        mask_paid_at = df["paid_at"].isna()
+        df.loc[mask_paid_at, "acciones"] += "paid_at_no_pagado; "
+        df.loc[mask_paid_at, "paid_at"] = "null"
+
+        # Reemplazar "nulo" por None en las columnas de tipo fecha
+        df["created_at"] = df["created_at"].replace("nulo", None)
+        df["paid_at"] = df["paid_at"].replace("nulo", None)
+
+        # Trazabilidad: guardar cambios
+        base_path = os.path.join("..", "dataset")
+        traza = df[df["acciones"].str.strip() != ""]
+        traza.to_csv(os.path.join(base_path, "traza_registros.csv"), index=False)
+
+        # Limpiar y guardar companies.csv
+        companies = df[["company_id", "name"]].copy()
+        companies = companies[
+            companies["company_id"].astype(str).str.match(r'^[a-zA-Z0-9]{10,}$')
+        ]
+        companies_clean = (
+            companies.groupby("company_id")["name"]
+            .agg(lambda x: x.mode().iloc[0] if not x.mode().empty else x.iloc[0])
+            .reset_index()
+        )
+        companies_clean = companies_clean.drop_duplicates(subset=["name"])
+        companies_clean.columns = ["id", "name"]
+        companies_clean.to_csv(os.path.join(base_path, "companies.csv"), index=False)
+
+        # Guardar charges.csv incluyendo paid_at y update_at
+        charges = df[[
+            "id", "name", "company_id", "amount",
+            "status", "created_at", "paid_at"
+        ]]
+        charges.to_csv(os.path.join(base_path, "charges.csv"), index=False)
+
+        print("Transformación completada correctamente con trazabilidad, paid_at procesado, y update_at agregado.")
+
+    except FileNotFoundError:
+        print("Error: No se encontró el archivo 'dataset/compras.csv'")
+    except Exception as e:
+        print(f"Error inesperado durante la transformación: {e}")
+
+if __name__ == "__main__":
+    transform_data()
