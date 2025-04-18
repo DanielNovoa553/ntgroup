@@ -6,10 +6,11 @@ from utils.utils import *
 from db_conexion.db_data import connectdb
 from datetime import datetime, date, timezone, timedelta
 
+
 app = Flask(__name__)
 secret_key = os.getenv("SECRET_KEY")
 app.config['SECRET_KEY'] = secret_key
-
+conjunto = ConjuntoNumeros()
 
 def generate_token():
     try:
@@ -209,6 +210,48 @@ def get_gastos_diarios():
 
     except Exception as e:
         return jsonify({"error": f"Error al consultar la vista: {str(e)}"}), 500
+
+
+
+@app.route("/api/extraer_numero", methods=["POST"])
+def extraer_numero():
+    token = request.args.get('token')
+    if not token:
+        return jsonify({"error": "Token no proporcionado."}), 400
+
+    payload = verify_token(token)
+    if 'error' in payload:
+        return jsonify(payload), 400
+
+    data = request.get_json()
+    if "numero" not in data:
+        return jsonify({"error": "Debes enviar el campo 'numero'"}), 400
+
+    numero = data["numero"]
+
+    try:
+        conjunto.extract(numero)
+        return jsonify({"mensaje": f"Número {numero} extraído correctamente."})
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app.route("/api/faltante", methods=["GET"])
+def obtener_faltante():
+    try:
+        token = request.args.get('token')
+        if not token:
+            return jsonify({"error": "Token no proporcionado."}), 400
+
+        payload = verify_token(token)
+        if 'error' in payload:
+            return jsonify(payload), 400
+
+        faltante = conjunto.get_missing_number()
+        conjunto.reset()  # Reinicia automáticamente luego de obtener el número
+        return jsonify({"numero_faltante": faltante, "mensaje": "Conjunto reiniciado automáticamente."})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
 if __name__ == "__main__":
