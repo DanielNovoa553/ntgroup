@@ -1,36 +1,16 @@
 import pandas as pd
 import os
 import uuid
-from datetime import datetime
+
 
 def transform_data():
     try:
         # Leer CSV original
-        input_path = os.path.join("..", "dataset", "compras.csv")
+        input_path = os.path.join("..", "dataset_in", "compras.csv")
         df = pd.read_csv(input_path)
-        print(df.head())
 
         # Normalizar nombres de columnas
         df.columns = [col.strip().lower() for col in df.columns]
-
-        # Mapear nombres esperados
-        column_map = {
-            "id": "id",
-            "name": "name",
-            "company_id": "company_id",
-            "amount": "amount",
-            "status": "status",
-            "created_at": "created_at",
-            "paid_at": "paid_at"
-        }
-        df.rename(columns=column_map, inplace=True)
-
-        # Convertir fechas
-        df["created_at"] = pd.to_datetime(df["created_at"], errors='coerce').dt.date
-        if "paid_at" in df.columns:
-            df["paid_at"] = pd.to_datetime(df["paid_at"], errors='coerce').dt.date
-        else:
-            df["paid_at"] = pd.NaT
 
         # Reemplazar espacios vacíos por NaN
         df.replace(r'^\s*$', pd.NA, regex=True, inplace=True)
@@ -86,8 +66,9 @@ def transform_data():
         df["created_at"] = df["created_at"].replace("nulo", None)
         df["paid_at"] = df["paid_at"].replace("nulo", None)
 
+
         # Trazabilidad: guardar cambios
-        base_path = os.path.join("..", "dataset")
+        base_path = os.path.join("..", "dataset_out")
         traza = df[df["acciones"].str.strip() != ""]
         traza.to_csv(os.path.join(base_path, "traza_registros.csv"), index=False)
 
@@ -107,7 +88,7 @@ def transform_data():
 
         # Guardar charges.csv incluyendo paid_at y update_at
         charges = df[[
-            "id", "name", "company_id", "amount",
+            "id", "company_id", "amount",
             "status", "created_at", "paid_at"
         ]]
         charges.to_csv(os.path.join(base_path, "charges.csv"), index=False)
@@ -115,9 +96,7 @@ def transform_data():
         print("Transformación completada correctamente con trazabilidad, paid_at procesado, y update_at agregado.")
 
     except FileNotFoundError:
-        print("Error: No se encontró el archivo 'dataset/compras.csv'")
+        print("Error: No se encontró el archivo 'dataset_in/compras.csv'")
     except Exception as e:
         print(f"Error inesperado durante la transformación: {e}")
 
-if __name__ == "__main__":
-    transform_data()
