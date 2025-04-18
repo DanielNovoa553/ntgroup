@@ -1,9 +1,13 @@
 ## Proceso ETL Parte 1: Extracción y Transformación
 
-El proyecto implementa un pipeline ETL (Extracción, Transformación y Carga) que automatiza el procesamiento de archivos
-CSV crudos para su análisis en una base de datos PostgresSQL.
+El proyecto implementa un pipeline ETL (Extracción, Transformación y Carga) automatizado utilizando Python y Pandas,
+orientado al procesamiento de archivos CSV crudos con datos de compras de múltiples empresas. Los datos transformados se
+almacenan en una base de datos PostgreSQL. El objetivo principal es generar una vista SQL que consolide las transacciones
+diarias por empresa. Esta vista es consumida tanto por una API REST como por un proceso que genera un archivo CSV con
+el resumen diario de transacciones por compañía.
 
-# Ventajas de usar PostgresSQL en un proceso ETL con Python
+
+# Ventajas de usar PostgreSQL en un proceso ETL con Python
 
 - Eficiencia con grandes volúmenes de datos: Ideal para manejar y transformar grandes datasets.
 - Consultas avanzadas: Permite agregaciones, uniones y sub consultas directamente en la base de datos.
@@ -122,7 +126,7 @@ Este archivo (`load_data.py`) es el punto de entrada principal del proceso ETL (
 1. **Transforma los datos crudos**:
    - Llama a `transform_data()` para limpiar, validar e imputar datos del archivo `compras.csv`.
 
-2. **Carga los datos transformados a PostgresSQL**:
+2. **Carga los datos transformados a PostgreSQL**:
    - Inserta los datos limpios en las tablas `companies` y `charges`.
    - Evita duplicados mediante `ON CONFLICT DO NOTHING`.
 

@@ -4,25 +4,6 @@ import uuid
 
 
 def transform_data():
-    """
-        Realiza la transformación de datos desde un archivo CSV de compras, normalizando columnas,
-        imputando valores faltantes y generando archivos CSV limpios para `companies` y `charges`.
-
-        La función:
-        - Normaliza nombres de columnas y reemplaza espacios vacíos por NaN.
-        - Imputa `company_id` y `name` basándose en coincidencias.
-        - Marca campos requeridos como "nulo" si están vacíos.
-        - Genera UUID para los registros con `id` igual a "nulo".
-        - Procesa la columna `paid_at` para valores faltantes.
-        - Exporta archivos `companies.csv` y `charges.csv`, y guarda un archivo de trazabilidad.
-
-        Excepciones:
-            FileNotFoundError: Si no se encuentra el archivo de entrada.
-            Exception: Errores inesperados durante la transformación.
-
-        Returns:
-            None
-        """
     try:
         # Leer CSV original
         input_path = os.path.join("..", "dataset_in", "compras.csv")

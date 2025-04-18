@@ -4,6 +4,22 @@ import psycopg2
 load_dotenv()
 
 def connectdb():
+    """
+        Establece una conexión con la base de datos PostgreSQL utilizando las credenciales
+        almacenadas en variables de entorno.
+
+        Utiliza la librería `psycopg2` para conectarse a la base de datos, con los parámetros
+        de configuración (nombre de base de datos, usuario, contraseña, host y puerto)
+        extraídos desde un archivo `.env` mediante la librería `dotenv`.
+
+        Si la conexión es exitosa, devuelve un objeto de conexión; de lo contrario,
+        imprime un mensaje de error y retorna `False`.
+
+        Returns:
+            psycopg2.extensions.connection | bool:
+                Un objeto de conexión a la base de datos si la conexión es exitosa,
+                o `False` en caso de error.
+        """
     try:
         return psycopg2.connect(
             dbname=os.getenv("DB_NAME"),

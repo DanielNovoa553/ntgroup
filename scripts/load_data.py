@@ -5,6 +5,19 @@ from scripts.transform import transform_data
 from scripts.export_views import export_view_to_csv
 
 def load_data():
+    """
+        Carga los datos transformados desde archivos CSV a la base de datos PostgreSQL.
+
+        Esta función ejecuta el proceso de carga de datos en las tablas `companies` y `charges`,
+        luego exporta la vista `transacciones_diarias` a un archivo CSV.
+
+        Primero se ejecuta la transformación de datos con la función `transform_data()`, luego se
+        insertan los datos de las empresas y los cargos en las tablas correspondientes, y finalmente
+        se exporta la vista de transacciones.
+
+        Returns:
+            None
+        """
     try:
         print("Iniciando transformación de datos...")
         transform_data()
