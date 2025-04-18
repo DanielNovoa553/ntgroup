@@ -125,7 +125,7 @@ fad60593a7740258320c1b74e8987e381ca8092b,Muebles chidos,8f642dc67fccf861548dfe1c
 c634f6af7607ca49fe8d17a6801fba0303bdffae,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,200.1,voided,2019-04-28,null,paid_at_no_pagado; 
 cef2a81ab778998d6052ce4682cfce9b3890acfd,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,3.0,voided,2019-03-07,null,paid_at_no_pagado; 
 65470ec916e8d952eccd9516bcf8a166cf3a280f,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,3.0,pending_payment,2019-05-20,null,paid_at_no_pagado; 
-0564a9f933ae4196ba638b0126d4ef6d,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,66.16,pending_payment,2019-03-14,null,id_nulo; uuid_generado; paid_at_no_pagado; 
+70994189e3854b2fb20feb3d8beaa1c2,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,66.16,pending_payment,2019-03-14,null,id_nulo; uuid_generado; paid_at_no_pagado; 
 9ef819da3929e5e708a3815cfe24bf779ff5c1b0,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,94.45,pending_payment,2019-05-01,null,paid_at_no_pagado; 
 ab06c7a334273183dc55c978e503d944c3bec1ff,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,42.87,pending_payment,2019-01-03,null,paid_at_no_pagado; 
 407ab5065dcd092427d0c779b6f60509e7479f55,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,54.1,pending_payment,2019-03-31,null,paid_at_no_pagado; 
@@ -3964,9 +3964,9 @@ a1c38be2691ce83f401cc4c6b795157eeeb45f0d,MiPasajefy,cbf1c8b09cd5b549416d49d220a4
 b25e6e47c7edf74bf71a2521ff233c4cff87976f,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,81.81,pending_payment,2019-02-06,null,paid_at_no_pagado; 
 f8712128e8a176c874982023dbf50551fb05b194,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,3.0,voided,2019-05-13,null,paid_at_no_pagado; 
 bc4dcb05e32a59c55574f019b446433299865383,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,3.0,voided,2019-04-24,null,paid_at_no_pagado; 
-4f254fb38c4343d89ebfed7ff574252d,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,55.71,paid,2019-02-13,2019-02-13,id_nulo; uuid_generado; 
+db82e2b6299644098688a4e4d7e7b7a9,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,55.71,paid,2019-02-13,2019-02-13,id_nulo; uuid_generado; 
 c8dd8cb12a73d9ab8b899b8ad428acee0ae4006d,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,3.0,pending_payment,2019-04-18,null,paid_at_no_pagado; 
-363e53783dd24bb4a93fd3d18a194a50,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,89.36,paid,2019-04-17,2019-04-17,id_nulo; uuid_generado; 
+8170966d9c7e4cffa736120df2145f07,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,89.36,paid,2019-04-17,2019-04-17,id_nulo; uuid_generado; 
 ddf8e87ece5930aeb607be87c088103ce93ac62f,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,52.75,voided,2019-01-12,null,paid_at_no_pagado; 
 0ac700bfc678f7ca0faae1fd8b9898c8ab5c55a1,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,646.35,pending_payment,2019-02-06,null,paid_at_no_pagado; 
 201f3654d5cd03d535d40a3eac7052b2e67c8845,MiPasajefy,cbf1c8b09cd5b549416d49d220a40cbd317f952e,3.0,voided,2019-04-22,null,paid_at_no_pagado; 

@@ -425,16 +425,14 @@ Permite extraer un número del conjunto del 1 al 100. Solo se permite una extrac
   "mensaje": "Número 33 extraído correctamente."
 }
 ```
-![img.png](images/img828.png)
+![img.png](img.png)
 **Errores posibles:**
 - Token faltante o inválido
-![img_6.png](images/img_42572.png)
-
+![img_6.png](img_6.png)
 - Número fuera de rango
-![img_5.png](images/img_572178.png)
-
+![img_5.png](img_5.png)
 - Ya se hizo una extracción
-![img_7.png](images/img_7747.png)
+
 ---
 
 ### `GET /api/faltante`
@@ -449,15 +447,12 @@ Devuelve el número que fue extraído y reinicia automáticamente el conjunto pa
   "mensaje": "Conjunto reiniciado automáticamente."
 }
 ```
-![img_3.png](images/img_272.png)
-
+![img_3.png](img_3.png)
 **Errores posibles:**
 - Token faltante o inválido
-![img_2.png](images/img_428.png)
-
+![img_2.png](img_2.png)
 - No se ha hecho ninguna extracción aún
-![img_4.png](images/img_47474.png)
-
+![img_4.png](img_4.png)
 ---
 
 ###  Clase: `ConjuntoNumeros`
